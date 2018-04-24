@@ -166,7 +166,6 @@ class FullyConnectedNet(object):
         self.num_layers = 1 + len(hidden_dims)
         self.dtype = dtype
         self.params = {}
-
         ############################################################################
         # TODO: Initialize the parameters of the network, storing all values in    #
         # the self.params dictionary. Store weights and biases for the first layer #
@@ -181,9 +180,15 @@ class FullyConnectedNet(object):
         ############################################################################
         self.params['W1'] = np.random.normal(0.0, weight_scale, (input_dim, hidden_dims[0]))
         self.params['b1'] = np.zeros((hidden_dims[0],))
+        if use_batchnorm:
+            self.params['beta1'] = np.zeros((hidden_dims[0],))
+            self.params['gamma1'] = np.ones((hidden_dims[0],))
         for i in range(0, self.num_layers - 2):
             self.params['W' + str(i + 2)] = np.random.normal(0.0, weight_scale, (hidden_dims[i], hidden_dims[i+1]))
             self.params['b' + str(i + 2)] = np.zeros((hidden_dims[i + 1],))
+            if use_batchnorm:
+                self.params['beta' + str(i + 2)] = np.zeros((hidden_dims[i+1],))
+                self.params['gamma' + str(i + 2)] = np.ones((hidden_dims[i+1],))
         self.params['W' + str(self.num_layers)] = \
             np.random.normal(0.0, weight_scale, (hidden_dims[len(hidden_dims) - 1], num_classes))
         self.params['b' + str(self.num_layers)] = np.zeros((num_classes,))
@@ -247,12 +252,37 @@ class FullyConnectedNet(object):
         # layer, etc.                                                              #
         ############################################################################
         storage['z1'] = affine_forward(X, self.params['W1'], self.params['b1'])
-        storage['a1'] = relu_forward(storage['z1'][0])
+        # print(storage['z1'][0].shape)
+        if self.use_batchnorm:
+            storage['bn1'] = batchnorm_forward(storage['z1'][0], self.params['gamma1'], self.params['beta1'], self.bn_params[0])
+            # print(storage['bn1'][0].shape)
+            storage['a1'] = relu_forward(storage['bn1'][0])
+        else:
+            storage['a1'] = relu_forward(storage['z1'][0])
+        if self.use_dropout:
+            storage['drop1'] = dropout_forward(storage['a1'][0], self.dropout_param)
+        # print(storage['a1'][0].shape)
         for i in range(2, self.num_layers):
-            storage['z' + str(i)] = affine_forward(storage['a' + str(i-1)][0],
+            if self.use_dropout:
+                choosen_array = 'drop'
+            else:
+                choosen_array = 'a'
+            storage['z' + str(i)] = affine_forward(storage[choosen_array + str(i-1)][0],
                                                    self.params['W' + str(i)], self.params['b' + str(i)])
-            storage['a' + str(i)] = relu_forward(storage['z' + str(i)][0])
-        storage['z' + str(self.num_layers)] = affine_forward(storage['a' + str(self.num_layers - 1)][0],
+            if self.use_batchnorm:
+                storage['bn' + str(i)] = batchnorm_forward(storage['z' + str(i)][0], self.params['gamma' + str(i)],
+                                                           self.params['beta' + str(i)], self.bn_params[i - 1])
+                storage['a' + str(i)] = relu_forward(storage['bn' + str(i)][0])
+            else:
+                storage['a' + str(i)] = relu_forward(storage['z' + str(i)][0])
+            if self.use_dropout:
+                storage['drop' + str(i)] = dropout_forward(storage['a' + str(i)][0], self.dropout_param)
+
+        if self.use_dropout:
+            choosen_array = 'drop'
+        else:
+            choosen_array = 'a'
+        storage['z' + str(self.num_layers)] = affine_forward(storage[choosen_array + str(self.num_layers - 1)][0],
                                 self.params['W' + str(self.num_layers)], self.params['b' + str(self.num_layers)])
         scores = storage['z' + str(self.num_layers)][0]
         ############################################################################
@@ -290,11 +320,20 @@ class FullyConnectedNet(object):
         grads['b' + str(self.num_layers)] = db
 
         for i in range(self.num_layers - 1, 0, -1):
+            if self.use_dropout:
+                dZ = dropout_backward(dZ, storage['drop' + str(i)][1])
             dA = relu_backward(dZ, storage['a' + str(i)][1])
-            dZ, dW, db = affine_backward(dA, storage['z' + str(i)][1])
+            if self.use_batchnorm:
+                dBN, dgamma, dbeta = batchnorm_backward(dA, storage['bn' + str(i)][1])
+                dZ, dW, db = affine_backward(dBN, storage['z' + str(i)][1])
+            else:
+                dZ, dW, db = affine_backward(dA, storage['z' + str(i)][1])
             dW += self.reg * self.params['W' + str(i)]
             grads['W' + str(i)] = dW
             grads['b' + str(i)] = db
+            if self.use_batchnorm:
+                grads['gamma' + str(i)] = dgamma
+                grads['beta' + str(i)] = dbeta
 
         ############################################################################
         #                             END OF YOUR CODE                             #
