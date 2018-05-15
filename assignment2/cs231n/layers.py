@@ -557,7 +557,11 @@ def spatial_batchnorm_forward(x, gamma, beta, bn_param):
     # version of batch normalization defined above. Your implementation should#
     # be very short; ours is less than five lines.                            #
     ###########################################################################
-    pass
+    C, H, W = x.shape[1], x.shape[2], x.shape[3]
+    gamma = np.repeat(gamma, H * W)
+    beta = np.repeat(beta, H * W)
+    out, cache = batchnorm_forward(x.reshape((x.shape[0], C * H * W)), gamma, beta, bn_param)
+    out = out.reshape((out.shape[0], C, H, W))
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
@@ -587,7 +591,14 @@ def spatial_batchnorm_backward(dout, cache):
     # version of batch normalization defined above. Your implementation should#
     # be very short; ours is less than five lines.                            #
     ###########################################################################
-    pass
+    print("c0.s: ", cache[0].shape)
+    print("c1.s: ", cache[1].shape)
+    print("c2.s: ", cache[2].shape)
+    C, H, W = dout.shape[1], dout.shape[2], dout.shape[3]
+    dx, dgamma, dbeta = batchnorm_backward(dout.reshape((dout.shape[0], C * H * W)), cache)
+    dx = dx.reshape((dx.shape[0], C, H, W))
+    dgamma = np.sum(dgamma.reshape(C, H * W), axis=1)
+    dbeta = np.sum(dbeta.reshape(C, H * W), axis=1)
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
