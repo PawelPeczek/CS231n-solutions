@@ -30,7 +30,7 @@
       <file leaf-file-name="layers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cs231n/layers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
+            <state relative-caret-position="3906">
               <caret line="220" column="62" lean-forward="false" selection-start-line="220" selection-start-column="62" selection-end-line="220" selection-end-column="62" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -42,7 +42,7 @@
       <file leaf-file-name="cnn.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cs231n/classifiers/cnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="962">
+            <state relative-caret-position="2070">
               <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
@@ -88,7 +88,7 @@
       <file leaf-file-name="solver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cs231n/solver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
+            <state relative-caret-position="3222">
               <caret line="180" column="34" lean-forward="false" selection-start-line="180" selection-start-column="34" selection-end-line="180" selection-end-column="34" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
@@ -189,8 +189,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -213,12 +211,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../assignment3" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -301,6 +301,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="27" width="1280" height="1053" extended-state="4" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290461" sideWeight="0.503125" order="7" side_tool="true" content_ui="tabs" />
@@ -752,7 +753,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs231n/layers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
+        <state relative-caret-position="3906">
           <caret line="220" column="62" lean-forward="false" selection-start-line="220" selection-start-column="62" selection-end-line="220" selection-end-column="62" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
@@ -762,7 +763,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs231n/classifiers/cnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="962">
+        <state relative-caret-position="2070">
           <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
@@ -772,7 +773,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs231n/solver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
+        <state relative-caret-position="3222">
           <caret line="180" column="34" lean-forward="false" selection-start-line="180" selection-start-column="34" selection-end-line="180" selection-end-column="34" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
